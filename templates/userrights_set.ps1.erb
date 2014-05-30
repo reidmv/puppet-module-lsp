@@ -1,0 +1,17 @@
+# Perform work to change/set the setting to the desired state
+secedit /export /CFG lsp_temp.inf
+if <%= @mapping['type'] == 'keyvalue' %> {
+  Edit <%= @mapping['name'] %> | cat <%= @settings %> | magic
+} else {
+  # edit the registry type thing, taking into account registrytype and all
+  # that
+}
+
+secedit /import /CFG lsp_temp.inf
+
+# Perform any cleanup necessary
+del lsp_temp.inf
+
+# Set the return code. 0 if the setting is correct, 1 if the setting needs to
+# be changed.
+if %EXITCODE% == 0 then return 0 else return 1

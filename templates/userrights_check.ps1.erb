@@ -1,0 +1,12 @@
+# Perform work to determine whether or not the setting is in sync with the
+# desired state.
+secedit /export /CFG lsp_temp.inf
+FindStr <%= @mapping['name'] %> lsp_temp.inf | FindStr <%= @settings %>
+success = %EXITCODE%
+
+# Perform any cleanup necessary
+del lsp_temp.inf
+
+# Set the return code. 0 if the setting is correct, 1 if the setting needs to
+# be changed.
+if %EXITCODE% == 0 then return 0 else return 1
